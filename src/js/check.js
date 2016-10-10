@@ -1,36 +1,29 @@
 'use strict';
 
 var getMessage = function (a, b) {
-  if (typeof a == "boolean") {
-    if (a === true) {return "Я попал в " + [b];}
+  if (typeof a == 'boolean') {
+    if (a === true)
+      {return 'Я попал в ' + [b];}
     else {
       return "Я никуда не попал";
     }
-  }
-
-  else if (typeof a == "number") {
-    return "Я прыгнул на " + [a] * 100 + " сантиметров";
-  }
-
-  else if (Array.isArray(a) && !Array.isArray(b)) {
+  } else if (typeof a == 'number') {
+      return 'Я прыгнул на ' + [a] * 100 + ' сантиметров';
+  } else if (Array.isArray(a) && !Array.isArray(b)) {
     var numberOfSteps = 0;
 
     for (var i = 0; i < a.length; i++) {
       numberOfSteps = numberOfSteps + a[i];
     }
-    return "Я прошёл " + [numberOfSteps] + " шагов";
-  }
+    return 'Я прошёл ' + [numberOfSteps] + ' шагов';
+  } else if (Array.isArray(a) && Array.isArray(b)) {
+      var distancePath = 0;
 
-  else if (Array.isArray(a) && Array.isArray(b)) {
-    var distancePath = 0;
-
-    for (var j = 0; j < a.length; j++) {
-      distancePath = distancePath + a[j] * b[j];
+      for (var j = 0; j < a.length; j++) {
+        distancePath = distancePath + a[j] * b[j];
     }
-    return "Я прошёл " + [distancePath] + " метров";
-  }
-
-  else {
-    return "Переданы некорректные данные";
+    return 'Я прошёл ' + [distancePath] + ' метров';
+  } else {
+      return 'Переданы некорректные данные';
   }
 };
