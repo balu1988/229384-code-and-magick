@@ -12,10 +12,10 @@ var getMessage = function (a, b) {
     return 'Я прыгнул на ' + [a] * 100 + ' сантиметров';
   } else
   if (Array.isArray(a) && !Array.isArray(b)) {
-  var numberOfSteps = 0;
-  for (var i = 0; i < a.length; i++) {
-  numberOfSteps = numberOfSteps + a[i];
-  }
+    var numberOfSteps = 0;
+    for (var i = 0; i < a.length; i++) {
+    numberOfSteps = numberOfSteps + a[i];
+    }
     return 'Я прошёл ' + [numberOfSteps] + ' шагов';
   } else
   if (Array.isArray(a) && Array.isArray(b)) {
