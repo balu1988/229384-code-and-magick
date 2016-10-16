@@ -408,6 +408,30 @@ window.Game = (function() {
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var canvas = document.querySelector('canvas');
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+      ctx.beginPath();
+      ctx.moveTo(260, 60);
+      ctx.lineTo(610, 60);
+      ctx.lineTo(610, 160);
+      ctx.lineTo(240, 160);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.beginPath();
+      ctx.moveTo(250, 50);
+      ctx.lineTo(600, 50);
+      ctx.lineTo(600, 150);
+      ctx.lineTo(230, 150);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#000000';
+      ctx.font = '16px PT Mono';
+      var words = [ctx.fillText('Привет!', 270, 90), ctx.fillText('Гляди', 270, 110), ctx.fillText('Лови', 270, 130)];
+      ctx.fillText(words);
       switch (this.state.currentStatus) {
         case Verdict.WIN:
           console.log('you have won!');
