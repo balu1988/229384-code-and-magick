@@ -431,32 +431,32 @@ window.Game = (function() {
         ctx.fill();
       }
       drawTextField();
-      function wrapText(text, marginLeft, marginTop, maxWidth, lineHeight) {
+      function wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT) {
         var words = text.split(' '); //разбиваем текст на слова по пробелам
         var countWords = words.length;
         var line = '';
         for (var n = 0; n < countWords; n++) { //а потом обходим эти слова в цикле,
           var testLine = line + words[n] + ' '; //объединяя их по одному в строку.
           var testWidth = ctx.measureText(testLine).width; //measureText отдает ширину текста
-          if (testWidth > maxWidth) { //Если при последнем объединении ширина этой строки больше максимальной,
-            ctx.fillText(line, marginLeft, marginTop); //то выводим строку без последнего слова,
+          if (testWidth > MAX_WIDTH) { //Если при последнем объединении ширина этой строки больше максимальной,
+            ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP); //то выводим строку без последнего слова,
             line = words[n] + ' '; //а его записываем в новую строку
-            marginTop += lineHeight;
+            MARGIN_TOP += LINE_HEIGHT;
           } else {
             line = testLine;
           }
         }
-        ctx.fillText(line, marginLeft, marginTop);
+        ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
       }
 
-      var maxWidth = 340; //размер поля, где выводится текст
-      var lineHeight = 25; //высота строки
-      var marginLeft = 260; //отступ слева
-      var marginTop = 80; //отступ сверху
+      var MAX_WIDTH = 340; //размер поля, где выводится текст
+      var LINE_HEIGHT = 25; //высота строки
+      var MARGIN_LEFT = 260; //отступ слева
+      var MARGIN_TOP = 80; //отступ сверху
       var text = 'Привет! Смотри как я летаю, пуляю, бегаю и повторяюсь. Привет! Смотри как я летаю, пуляю, бегаю и ...';
       ctx.font = '16px PT Mono';
       ctx.fillStyle = '#000000';
-      wrapText(text, marginLeft, marginTop, maxWidth, lineHeight);
+      wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT);
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
