@@ -448,7 +448,6 @@ window.Game = (function() {
         }
         ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
       }
-
       var MAX_WIDTH = 340; //размер поля, где выводится текст
       var LINE_HEIGHT = 25; //высота строки
       var MARGIN_LEFT = 260; //отступ слева
