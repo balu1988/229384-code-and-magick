@@ -416,32 +416,12 @@ window.Game = (function() {
       var MARGIN_TOP = 80;
       var text = 'Привет! Смотри как я летаю, пуляю, бегаю и повторяюсь. Привет! Смотри как я летаю, пуляю, бегаю и ...';
       ctx.font = '16px PT Mono';
-      function drawTextField(countlines) {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.beginPath();
-        ctx.moveTo(260, 60);
-        ctx.lineTo(610, 60);
-        ctx.lineTo(610, 160 + LINE_HEIGHT);
-        ctx.lineTo(240, 160);
-        ctx.closePath();
-        ctx.fill();
-        ctx.fillStyle = '#FFFFFF';
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.beginPath();
-        ctx.moveTo(250, 50);
-        ctx.lineTo(600, 50);
-        ctx.lineTo(600, 150);
-        ctx.lineTo(230, 150);
-        ctx.closePath();
-        ctx.fill();
-      }
+      var line = '';
+      var lines = [];
 
-      function wrapText() {
+      function countLines() { //узнаем количество строк
         var words = text.split(' ');
         var countWords = words.length;
-        var line = '';
-        var lines = [];
         for (var n = 0; n < countWords; n++) {
           var testLine = line + words[n] + ' ';
           var testWidth = ctx.measureText(testLine).width;
@@ -453,23 +433,56 @@ window.Game = (function() {
           }
         }
         lines.push(line);
-        drawTextField(lines.length);
-        // for (var n = 0; n < countWords; n++) { //а потом обходим эти слова в цикле,
-        //   var testLine = line + words[n] + ' '; //объединяя их по одному в строку.
-        //   var testWidth = ctx.measureText(testLine).width; //measureText отдает ширину текста
-        //   if (testWidth > MAX_WIDTH) { //Если при последнем объединении ширина этой строки больше максимальной,
-        //     ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP); //то выводим строку без последнего слова,
-        //     line = words[n] + ' '; //а его записываем в новую строку
-        //     MARGIN_TOP += LINE_HEIGHT;
-        //     // countLines++;
-        //   } else {
-        //     line = testLine;
-        //   }
-        // }
-        // ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
+      }
+      countLines(); //запоминаем количество строк в lines
+
+      function drawTextField() { //рисуем поле
+        var bottomPoint = lines.length * LINE_HEIGHT;
+        console.log(bottomPoint);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.beginPath();
+        ctx.moveTo(260, 60);
+        ctx.lineTo(610, 60);
+        // ctx.lineTo(610, bottomPoint + 10); НЕ ПОНИМАЕТ!!!1111
+        // ctx.lineTo(240, bottomPoint + 10);
+        ctx.lineTo(610, 160);
+        ctx.lineTo(240, 160);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.moveTo(250, 50);
+        ctx.lineTo(600, 50);
+        // ctx.lineTo(600, bottomPoint);
+        // ctx.lineTo(230, bottomPoint);
+        ctx.lineTo(600, 150);
+        ctx.lineTo(230, 150);
+        ctx.closePath();
+        ctx.fill();
+      }
+      drawTextField(); // выводим поле
+
+      function wrapText() { //рисуем текст
+        var line1 = '';
+        var words1 = text.split(' ');
+        var countWords1 = words1.length;
+        for (var n = 0; n < countWords1; n++) {
+          var testLine1 = line1 + words1[n] + ' ';
+          var testWidth1 = ctx.measureText(testLine1).width;
+          if (testWidth1 > MAX_WIDTH) {
+            ctx.fillText(line1, MARGIN_LEFT, MARGIN_TOP);
+            line1 = words1[n] + ' ';
+            MARGIN_TOP += LINE_HEIGHT;
+          } else {
+            line1 = testLine1;
+          }
+        }
+        ctx.fillText(line1, MARGIN_LEFT, MARGIN_TOP);
       }
       ctx.fillStyle = '#000000';
-      wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT);
+      wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT); //выводим текст
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
