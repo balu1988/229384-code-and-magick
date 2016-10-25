@@ -461,7 +461,6 @@ window.Game = (function() {
         }
         drawTextField(); // выводим поле
       }
-      countLines(); //запоминаем количество строк в lines
 
       function wrapText() { //рисуем текст
         var line1 = '';
@@ -480,6 +479,7 @@ window.Game = (function() {
         }
         ctx.fillText(line1, MARGIN_LEFT, MARGIN_TOP);
       }
+      countLines(); //запоминаем количество строк в lines
       ctx.fillStyle = '#000000';
       wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT); //выводим текст
 
