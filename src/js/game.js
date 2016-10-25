@@ -416,10 +416,10 @@ window.Game = (function() {
       var MARGIN_TOP = 80;
       var text = 'Привет! Смотри как я летаю, пуляю, бегаю и повторяюсь. Привет! Смотри как я летаю, пуляю, бегаю и ...';
       ctx.font = '16px PT Mono';
-      var line = '';
-      var lines = [];
 
       function countLines() { //узнаем количество строк
+        var line = '';
+        var lines = [];
         var words = text.split(' ');
         var countWords = words.length;
         for (var n = 0; n < countWords; n++) {
@@ -433,36 +433,35 @@ window.Game = (function() {
           }
         }
         lines.push(line);
+        function drawTextField() { //рисуем поле
+          var bottomPoint = lines.length * LINE_HEIGHT;
+          console.log(bottomPoint);
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+          ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+          ctx.beginPath();
+          ctx.moveTo(260, 60);
+          ctx.lineTo(610, 60);
+          // ctx.lineTo(610, bottomPoint + 10);
+          // ctx.lineTo(240, bottomPoint + 10);
+          ctx.lineTo(610, 160);
+          ctx.lineTo(240, 160);
+          ctx.closePath();
+          ctx.fill();
+          ctx.fillStyle = '#FFFFFF';
+          ctx.strokeStyle = '#FFFFFF';
+          ctx.beginPath();
+          ctx.moveTo(250, 50);
+          ctx.lineTo(600, 50);
+          // ctx.lineTo(600, bottomPoint);
+          // ctx.lineTo(230, bottomPoint);
+          ctx.lineTo(600, 150);
+          ctx.lineTo(230, 150);
+          ctx.closePath();
+          ctx.fill();
+        }
+        drawTextField(); // выводим поле
       }
       countLines(); //запоминаем количество строк в lines
-
-      function drawTextField() { //рисуем поле
-        var bottomPoint = lines.length * LINE_HEIGHT;
-        console.log(bottomPoint);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.beginPath();
-        ctx.moveTo(260, 60);
-        ctx.lineTo(610, 60);
-        // ctx.lineTo(610, bottomPoint + 10); НЕ ПОНИМАЕТ!!!1111
-        // ctx.lineTo(240, bottomPoint + 10);
-        ctx.lineTo(610, 160);
-        ctx.lineTo(240, 160);
-        ctx.closePath();
-        ctx.fill();
-        ctx.fillStyle = '#FFFFFF';
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.beginPath();
-        ctx.moveTo(250, 50);
-        ctx.lineTo(600, 50);
-        // ctx.lineTo(600, bottomPoint);
-        // ctx.lineTo(230, bottomPoint);
-        ctx.lineTo(600, 150);
-        ctx.lineTo(230, 150);
-        ctx.closePath();
-        ctx.fill();
-      }
-      drawTextField(); // выводим поле
 
       function wrapText() { //рисуем текст
         var line1 = '';
