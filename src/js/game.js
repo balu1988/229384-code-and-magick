@@ -414,10 +414,10 @@ window.Game = (function() {
       var LINE_HEIGHT = 25;
       var MARGIN_LEFT = 260;
       var MARGIN_TOP = 80;
+      var CANVAS_FIELD_PADDING = 75;
       var text = 'Привет! Смотри как я летаю, пуляю, бегаю и повторяюсь. Привет! Смотри как я летаю, пуляю, бегаю и ...';
       ctx.font = '16px PT Mono';
-
-      function countLines() { //узнаем количество строк
+      function getCountLines() { //узнаем количество строк
         var line = '';
         var lines = [];
         var words = text.split(' ');
@@ -433,53 +433,49 @@ window.Game = (function() {
           }
         }
         lines.push(line);
-        function drawTextField() { //рисуем поле
-          var bottomPoint = lines.length * LINE_HEIGHT;
-          console.log(bottomPoint);
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-          ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-          ctx.beginPath();
-          ctx.moveTo(260, 60);
-          ctx.lineTo(610, 60);
-          // ctx.lineTo(610, bottomPoint + 10);
-          // ctx.lineTo(240, bottomPoint + 10);
-          ctx.lineTo(610, 160);
-          ctx.lineTo(240, 160);
-          ctx.closePath();
-          ctx.fill();
-          ctx.fillStyle = '#FFFFFF';
-          ctx.strokeStyle = '#FFFFFF';
-          ctx.beginPath();
-          ctx.moveTo(250, 50);
-          ctx.lineTo(600, 50);
-          // ctx.lineTo(600, bottomPoint);
-          // ctx.lineTo(230, bottomPoint);
-          ctx.lineTo(600, 150);
-          ctx.lineTo(230, 150);
-          ctx.closePath();
-          ctx.fill();
-        }
-        drawTextField(); // выводим поле
+        return lines;
       }
-
+      function drawTextField(countline) { //рисуем поле
+        var bottomPoint = countline * LINE_HEIGHT + CANVAS_FIELD_PADDING;
+        console.log(bottomPoint);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.beginPath();
+        ctx.moveTo(260, 60);
+        ctx.lineTo(610, 60);
+        ctx.lineTo(610, bottomPoint + 10);
+        ctx.lineTo(240, bottomPoint + 10);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.moveTo(250, 50);
+        ctx.lineTo(600, 50);
+        ctx.lineTo(600, bottomPoint);
+        ctx.lineTo(230, bottomPoint);
+        ctx.closePath();
+        ctx.fill();
+      }
       function wrapText() { //рисуем текст
-        var line1 = '';
-        var words1 = text.split(' ');
-        var countWords1 = words1.length;
-        for (var n = 0; n < countWords1; n++) {
-          var testLine1 = line1 + words1[n] + ' ';
-          var testWidth1 = ctx.measureText(testLine1).width;
-          if (testWidth1 > MAX_WIDTH) {
-            ctx.fillText(line1, MARGIN_LEFT, MARGIN_TOP);
-            line1 = words1[n] + ' ';
+        var line = '';
+        var words = text.split(' ');
+        var countWords = words.length;
+        for (var n = 0; n < countWords; n++) {
+          var testLine = line + words[n] + ' ';
+          var testWidth = ctx.measureText(testLine).width;
+          if (testWidth > MAX_WIDTH) {
+            ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
+            line = words[n] + ' ';
             MARGIN_TOP += LINE_HEIGHT;
           } else {
-            line1 = testLine1;
+            line = testLine;
           }
         }
-        ctx.fillText(line1, MARGIN_LEFT, MARGIN_TOP);
+        ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
       }
-      countLines(); //запоминаем количество строк в lines
+      var lines = getCountLines();
+      drawTextField(lines.length); // выводим поле
       ctx.fillStyle = '#000000';
       wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT); //выводим текст
 
