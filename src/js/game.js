@@ -437,7 +437,6 @@ window.Game = (function() {
       }
       function drawTextField(countline) { //рисуем поле
         var bottomPoint = countline * LINE_HEIGHT + CANVAS_FIELD_PADDING;
-        console.log(bottomPoint);
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.beginPath();
@@ -457,27 +456,16 @@ window.Game = (function() {
         ctx.closePath();
         ctx.fill();
       }
-      function wrapText() { //рисуем текст
-        var line = '';
-        var words = text.split(' ');
-        var countWords = words.length;
+      function wrapText(lines) { //рисуем текст
+        var countWords = lines.length;
         for (var n = 0; n < countWords; n++) {
-          var testLine = line + words[n] + ' ';
-          var testWidth = ctx.measureText(testLine).width;
-          if (testWidth > MAX_WIDTH) {
-            ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
-            line = words[n] + ' ';
-            MARGIN_TOP += LINE_HEIGHT;
-          } else {
-            line = testLine;
-          }
+          ctx.fillText(lines[n], MARGIN_LEFT, MARGIN_TOP + LINE_HEIGHT * n);
         }
-        ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
       }
       var lines = getCountLines();
       drawTextField(lines.length); // выводим поле
       ctx.fillStyle = '#000000';
-      wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT); //выводим текст
+      wrapText(lines, MARGIN_LEFT, MARGIN_TOP); //выводим текст
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
