@@ -410,14 +410,41 @@ window.Game = (function() {
     _drawPauseScreen: function() {
       var canvas = document.querySelector('canvas');
       var ctx = canvas.getContext('2d');
-      function drawTextField() {
+      var MAX_WIDTH = 340;
+      var LINE_HEIGHT = 25;
+      var MARGIN_LEFT = 260;
+      var MARGIN_TOP = 80;
+      var CANVAS_FIELD_PADDING = 75;
+      var text = 'Привет! Смотри как я летаю, пуляю, бегаю и повторяюсь. Привет! Смотри как я летаю, пуляю, бегаю и ...';
+      ctx.font = '16px PT Mono';
+      function getCountLines() { //узнаем количество строк
+        var line = '';
+        var lines = [];
+        var words = text.split(' ');
+        var countWords = words.length;
+        for (var n = 0; n < countWords; n++) {
+          var testLine = line + words[n] + ' ';
+          var testWidth = ctx.measureText(testLine).width;
+          if (testWidth > MAX_WIDTH) {
+            lines.push(line);
+            line = words[n] + ' ';
+          } else {
+            line = testLine;
+          }
+        }
+        lines.push(line);
+        return lines;
+      }
+      function drawTextField(countline) { //рисуем поле
+        var bottomPoint = countline * LINE_HEIGHT + CANVAS_FIELD_PADDING;
+        var backgroundBottomPoint = bottomPoint + 10;
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.beginPath();
         ctx.moveTo(260, 60);
         ctx.lineTo(610, 60);
-        ctx.lineTo(610, 160);
-        ctx.lineTo(240, 160);
+        ctx.lineTo(610, backgroundBottomPoint);
+        ctx.lineTo(240, backgroundBottomPoint);
         ctx.closePath();
         ctx.fill();
         ctx.fillStyle = '#FFFFFF';
@@ -425,38 +452,22 @@ window.Game = (function() {
         ctx.beginPath();
         ctx.moveTo(250, 50);
         ctx.lineTo(600, 50);
-        ctx.lineTo(600, 150);
-        ctx.lineTo(230, 150);
+        ctx.lineTo(600, bottomPoint);
+        ctx.lineTo(230, bottomPoint);
         ctx.closePath();
         ctx.fill();
       }
-      drawTextField();
-      function wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT) {
-        var words = text.split(' '); //разбиваем текст на слова по пробелам
-        var countWords = words.length;
-        var line = '';
-        for (var n = 0; n < countWords; n++) { //а потом обходим эти слова в цикле,
-          var testLine = line + words[n] + ' '; //объединяя их по одному в строку.
-          var testWidth = ctx.measureText(testLine).width; //measureText отдает ширину текста
-          if (testWidth > MAX_WIDTH) { //Если при последнем объединении ширина этой строки больше максимальной,
-            ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP); //то выводим строку без последнего слова,
-            line = words[n] + ' '; //а его записываем в новую строку
-            MARGIN_TOP += LINE_HEIGHT;
-          } else {
-            line = testLine;
-          }
+      function wrapText(lines) { //рисуем текст
+        var countWords = lines.length;
+        for (var n = 0; n < countWords; n++) {
+          ctx.fillText(lines[n], MARGIN_LEFT, MARGIN_TOP);
+          MARGIN_TOP += LINE_HEIGHT;
         }
-        ctx.fillText(line, MARGIN_LEFT, MARGIN_TOP);
       }
-
-      var MAX_WIDTH = 340; //размер поля, где выводится текст
-      var LINE_HEIGHT = 25; //высота строки
-      var MARGIN_LEFT = 260; //отступ слева
-      var MARGIN_TOP = 80; //отступ сверху
-      var text = 'Привет! Смотри как я летаю, пуляю, бегаю и повторяюсь. Привет! Смотри как я летаю, пуляю, бегаю и ...';
-      ctx.font = '16px PT Mono';
+      var lines = getCountLines();
+      drawTextField(lines.length); // выводим поле
       ctx.fillStyle = '#000000';
-      wrapText(text, MARGIN_LEFT, MARGIN_TOP, MAX_WIDTH, LINE_HEIGHT);
+      wrapText(lines, MARGIN_LEFT, MARGIN_TOP); //выводим текст
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
