@@ -437,13 +437,14 @@ window.Game = (function() {
       }
       function drawTextField(countline) { //рисуем поле
         var bottomPoint = countline * LINE_HEIGHT + CANVAS_FIELD_PADDING;
+        var backgroundBottomPoint = bottomPoint + 10;
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.beginPath();
         ctx.moveTo(260, 60);
         ctx.lineTo(610, 60);
-        ctx.lineTo(610, bottomPoint + 10);
-        ctx.lineTo(240, bottomPoint + 10);
+        ctx.lineTo(610, backgroundBottomPoint);
+        ctx.lineTo(240, backgroundBottomPoint);
         ctx.closePath();
         ctx.fill();
         ctx.fillStyle = '#FFFFFF';
@@ -459,7 +460,8 @@ window.Game = (function() {
       function wrapText(lines) { //рисуем текст
         var countWords = lines.length;
         for (var n = 0; n < countWords; n++) {
-          ctx.fillText(lines[n], MARGIN_LEFT, MARGIN_TOP + LINE_HEIGHT * n);
+          ctx.fillText(lines[n], MARGIN_LEFT, MARGIN_TOP);
+          MARGIN_TOP += LINE_HEIGHT;
         }
       }
       var lines = getCountLines();
