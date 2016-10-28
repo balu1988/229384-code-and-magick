@@ -4,7 +4,7 @@ var markForm = document.querySelector('.review-form-group-mark'); //звезды
 var nameForm = document.querySelector('.review-form-field-name'); //логин
 var recallForm = document.querySelector('.review-form-field-text'); //отзыв
 var submitForm = document.querySelector('.review-submit'); //кнопка сабмит
-var controlNameForm = document.querySelector('.review-fields-label');
+var controlNameForm = document.querySelector('.review-fields-name');
 
 nameForm.required = true; // указываю, что поле обязательное
 
@@ -15,12 +15,20 @@ function validateRecallForm() { // указываю, что поле обяза�
 }
 
 function checkValidity() { // пока проверка имени и откл сабмита
-  if (!nameForm.value === null || !nameForm.value === '') {
-    controlNameForm.classList.add('invisible'); // спрятать лэйбл имя
-    submitForm.setAttribute('disabled', false); // сабмит disabled - выкл
-  } else {
+  // if (!nameForm.value === null || !nameForm.value === '') {
+  // if (blablabla === !null || blablabla === !'') {
+  //   controlNameForm.classList.add('invisible'); // спрятать лэйбл имя
+  //   submitForm.setAttribute('disabled', false); // сабмит disabled - выкл
+  // } else {
+  //   controlNameForm.classList.remove('invisible');
+  //   submitForm.setAttribute('disabled', true); // сабмит disabled - выкл
+  // }
+  if (nameForm.value === null || nameForm.value === '') {
     controlNameForm.classList.remove('invisible');
-    submitForm.setAttribute('disabled', true); // сабмит disabled - выкл
+    submitForm.disabled = true;
+  } else {
+    controlNameForm.classList.add('invisible');
+    submitForm.disabled = false;
   }
 }
 
