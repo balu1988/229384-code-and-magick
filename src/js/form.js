@@ -4,41 +4,66 @@ var markForm = document.querySelector('.review-form-group-mark'); //звезды
 var nameForm = document.querySelector('.review-form-field-name'); //логин
 var recallForm = document.querySelector('.review-form-field-text'); //отзыв
 var submitForm = document.querySelector('.review-submit'); //кнопка сабмит
-var controlNameForm = document.querySelector('.review-fields-name');
+var controlNameLabel = document.querySelector('.review-fields-name'); //лейбл имя
+var controlRecallLabel = document.querySelector('.review-fields-text'); //лейбл отзыв
+var controlGlobalLabel = document.querySelector('.review-fields'); // лейбл общий
 
 nameForm.required = true; // указываю, что поле обязательное
 
 function validateRecallForm() { // указываю, что поле обязательное, если оценка 3 или 2 или 1
   if (markForm.elements[2 || 3 || 4].checked === true) {
     recallForm.required = true;
+  } else {
+    recallForm.required = false;
   }
 }
 
-function checkValidity() { // пока проверка имени и откл сабмита
-  // if (!nameForm.value === null || !nameForm.value === '') {
-  // if (blablabla === !null || blablabla === !'') {
-  //   controlNameForm.classList.add('invisible'); // спрятать лэйбл имя
-  //   submitForm.setAttribute('disabled', false); // сабмит disabled - выкл
-  // } else {
-  //   controlNameForm.classList.remove('invisible');
-  //   submitForm.setAttribute('disabled', true); // сабмит disabled - выкл
-  // }
+function checkNameValidity() { // проверка имени и откл сабмита
   if (nameForm.value === null || nameForm.value === '') {
-    controlNameForm.classList.remove('invisible');
+    controlNameLabel.classList.remove('invisible');
     submitForm.disabled = true;
   } else {
-    controlNameForm.classList.add('invisible');
+    controlNameLabel.classList.add('invisible');
     submitForm.disabled = false;
   }
 }
 
-nameForm.oninput = function() { // проверка каждый раз при изменении формы
-  checkValidity();
+function checkRecallValidity() { // проверка отзыва и откл сабмита
+  if (recallForm.value === null || recallForm.value === '') {
+    controlRecallLabel.classList.remove('invisible');
+    submitForm.disabled = true;
+  } else {
+    controlRecallLabel.classList.add('invisible');
+    submitForm.disabled = false;
+  }
+}
+
+function hideGlobalLabel() { // оба условия ок, пропадает лейбл с советами
+  if (recallForm.value && nameForm.value) {
+    controlGlobalLabel.classList.add('invisible');
+  } else {
+    controlGlobalLabel.classList.remove('invisible');
+  }
+}
+
+markForm.elements[0 || 1 || 2 || 3 || 4].onchange = function() { // проверка каждый раз при изменении оценок
+  validateRecallForm();
+};
+
+nameForm.oninput = function() { // проверка каждый раз при изменении формы с именем
+  checkNameValidity();
+  hideGlobalLabel();
+};
+
+recallForm.oninput = function() { // проверка каждый раз при изменении формы с отзывом
+  checkRecallValidity();
+  hideGlobalLabel();
 };
 
 validateRecallForm();
-checkValidity();
-
+checkNameValidity();
+checkRecallValidity();
+hideGlobalLabel();
 
 window.form = (function() {
   var formContainer = document.querySelector('.overlay-container');
