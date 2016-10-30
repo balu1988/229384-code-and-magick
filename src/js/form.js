@@ -8,10 +8,12 @@ var controlNameLabel = document.querySelector('.review-fields-name'); //лейб
 var controlRecallLabel = document.querySelector('.review-fields-text'); //лейбл отзыв
 var controlGlobalLabel = document.querySelector('.review-fields'); // лейбл общий
 
+console.log(document.cookie);
 nameForm.required = true; // указываю, что поле обязательное
 
 function validateRecallForm() { // указываю, что поле обязательное, если оценка 3 или 2 или 1
-  if (markForm.elements[2 || 3 || 4].checked === true) {
+  // if (markForm.elements[2 || 3 || 4].checked === true) { ТАК НЕ РАБОТАЕТ
+  if (markForm.elements[2].checked || markForm.elements[3].checked || markForm.elements[4].checked === true) {
     recallForm.required = true;
   } else {
     recallForm.required = false;
@@ -46,9 +48,15 @@ function hideGlobalLabel() { // оба условия ок, пропадает �
   }
 }
 
-markForm.elements[0 || 1 || 2 || 3 || 4].onchange = function() { // проверка каждый раз при изменении оценок
-  validateRecallForm();
-};
+for (var i = 0; i < markForm.elements.length; i++ ) { // проверка каждый раз при изменении оценок
+  markForm.elements[i].onchange = function() {
+    validateRecallForm();
+  };
+}
+
+// markForm.elements[0 || 1 || 2 || 3 || 4].onchange = function() { // проверка каждый раз при изменении оценок
+//   validateRecallForm();
+// };
 
 nameForm.oninput = function() { // проверка каждый раз при изменении формы с именем
   checkNameValidity();
