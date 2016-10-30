@@ -1,5 +1,6 @@
 'use strict';
 
+// var Cookies = document.cookie;
 var markForm = document.querySelector('.review-form-group-mark'); //звезды
 var nameForm = document.querySelector('.review-form-field-name'); //логин
 var recallForm = document.querySelector('.review-form-field-text'); //отзыв
@@ -7,8 +8,11 @@ var submitForm = document.querySelector('.review-submit'); //кнопка саб
 var controlNameLabel = document.querySelector('.review-fields-name'); //лейбл имя
 var controlRecallLabel = document.querySelector('.review-fields-text'); //лейбл отзыв
 var controlGlobalLabel = document.querySelector('.review-fields'); // лейбл общий
+var commonForm = document.querySelector('.review-form'); // вся форма
 
-console.log(document.cookie);
+var bornDate = new Date('1906-12-09'); // дата рождения Хоппер
+var nowDate = new Date(); // сегодняшняя дата
+
 nameForm.required = true; // указываю, что поле обязательное
 
 function validateRecallForm() { // указываю, что поле обязательное, если оценка 3 или 2 или 1
@@ -51,9 +55,9 @@ function hideGlobalLabel() { // оба условия ок, пропадает �
 for (var i = 0; i < markForm.elements.length; i++ ) { // проверка каждый раз при изменении оценок
   markForm.elements[i].onchange = function() {
     validateRecallForm();
+    console.log(markForm.value);
   };
 }
-
 // markForm.elements[0 || 1 || 2 || 3 || 4].onchange = function() { // проверка каждый раз при изменении оценок
 //   validateRecallForm();
 // };
@@ -66,6 +70,15 @@ nameForm.oninput = function() { // проверка каждый раз при �
 recallForm.oninput = function() { // проверка каждый раз при изменении формы с отзывом
   checkRecallValidity();
   hideGlobalLabel();
+};
+
+// document.cookie = 'myFirstCookie=value';
+// console.log(markForm.elements[0].value);
+// console.log(document.cookie);
+
+commonForm.onsubmit = function() {
+  // Cookies.set('review-mark', 123, {expires: 12300});
+  Cookies.set('review-name', nameForm.value, {expires: 12300}); // ругается 'Cookies' is not defined
 };
 
 validateRecallForm();
