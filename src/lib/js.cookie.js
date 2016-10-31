@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 /*!
  * JavaScript Cookie v2.1.3
  * https://github.com/js-cookie/js-cookie
@@ -154,3 +156,5 @@
 
 	return init(function () {});
 }));
+
+/*eslint-enable*/

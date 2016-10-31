@@ -1,6 +1,7 @@
 'use strict';
 
 // var Cookies = document.cookie;
+// var Cookies;
 var markForm = document.querySelector('.review-form-group-mark'); //звезды
 var nameForm = document.querySelector('.review-form-field-name'); //логин
 var recallForm = document.querySelector('.review-form-field-text'); //отзыв
@@ -13,10 +14,25 @@ var commonForm = document.querySelector('.review-form'); // вся форма
 var bornDate = new Date('1906-12-09'); // дата рождения Хоппер
 var nowDate = new Date(); // сегодняшняя дата
 
+function daysAfterBirthday() { // вычисляю количество дней после посл дня рождения
+  var year = nowDate.getFullYear();
+  var day = bornDate.getDate();
+  var month = bornDate.getMonth() + 1;
+  var lastBirthdayStr = year + '-' + month + '-' + day;
+  var lastBirthday = new Date(lastBirthdayStr);
+  if (lastBirthday > nowDate) {
+    year = year - 1;
+    lastBirthdayStr = year + '-' + month + '-' + day;
+    lastBirthday = new Date(lastBirthdayStr);
+  }
+  var daysDifference = Math.floor((nowDate - lastBirthday) / (24 * 60 * 60 * 1000));
+  return daysDifference;
+}
+console.log(daysAfterBirthday());
+
 nameForm.required = true; // указываю, что поле обязательное
 
 function validateRecallForm() { // указываю, что поле обязательное, если оценка 3 или 2 или 1
-  // if (markForm.elements[2 || 3 || 4].checked === true) { ТАК НЕ РАБОТАЕТ
   if (markForm.elements[2].checked || markForm.elements[3].checked || markForm.elements[4].checked === true) {
     recallForm.required = true;
   } else {
@@ -58,9 +74,6 @@ for (var i = 0; i < markForm.elements.length; i++ ) { // проверка каж
     console.log(markForm.value);
   };
 }
-// markForm.elements[0 || 1 || 2 || 3 || 4].onchange = function() { // проверка каждый раз при изменении оценок
-//   validateRecallForm();
-// };
 
 nameForm.oninput = function() { // проверка каждый раз при изменении формы с именем
   checkNameValidity();
@@ -74,11 +87,12 @@ recallForm.oninput = function() { // проверка каждый раз при
 
 // document.cookie = 'myFirstCookie=value';
 // console.log(markForm.elements[0].value);
-// console.log(document.cookie);
+// document.cookie = 'mySecondCookie=123;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+// document.write(document.cookie);
 
 commonForm.onsubmit = function() {
-  // Cookies.set('review-mark', 123, {expires: 12300});
-  Cookies.set('review-name', nameForm.value, {expires: 12300}); // ругается 'Cookies' is not defined
+  // Cookies.set('review-mark', 123, {expires: daysAfterBirthday()});
+  Cookies.set('review-name', nameForm.value, {expires: daysAfterBirthday()}); // ругается 'Cookies' is not defined
 };
 
 validateRecallForm();
