@@ -1,7 +1,7 @@
 'use strict';
 
 // var Cookies = document.cookie;
-// var Cookies;
+var Cookies;
 var markForm = document.querySelector('.review-form-group-mark'); //звезды
 var nameForm = document.querySelector('.review-form-field-name'); //логин
 var recallForm = document.querySelector('.review-form-field-text'); //отзыв
@@ -10,7 +10,7 @@ var controlNameLabel = document.querySelector('.review-fields-name'); //лейб
 var controlRecallLabel = document.querySelector('.review-fields-text'); //лейбл отзыв
 var controlGlobalLabel = document.querySelector('.review-fields'); // лейбл общий
 var commonForm = document.querySelector('.review-form'); // вся форма
-
+var star = document.querySelector('input[name="review-mark"]:checked'); // выбранная оценка - звезда
 var bornDate = new Date('1906-12-09'); // дата рождения Хоппер
 var nowDate = new Date(); // сегодняшняя дата
 
@@ -28,7 +28,11 @@ function daysAfterBirthday() { // вычисляю количество дней
   var daysDifference = Math.floor((nowDate - lastBirthday) / (24 * 60 * 60 * 1000));
   return daysDifference;
 }
-console.log(daysAfterBirthday());
+
+commonForm.onsubmit = function() {
+  Cookies.set('review-mark', star.value, {expires: daysAfterBirthday()});
+  Cookies.set('review-name', nameForm.value, {expires: daysAfterBirthday()}); // ругается 'Cookies' is not defined
+};
 
 nameForm.required = true; // указываю, что поле обязательное
 
@@ -83,16 +87,6 @@ nameForm.oninput = function() { // проверка каждый раз при �
 recallForm.oninput = function() { // проверка каждый раз при изменении формы с отзывом
   checkRecallValidity();
   hideGlobalLabel();
-};
-
-// document.cookie = 'myFirstCookie=value';
-// console.log(markForm.elements[0].value);
-// document.cookie = 'mySecondCookie=123;expires=Thu, 01 Jan 1970 00:00:01 GMT';
-// document.write(document.cookie);
-
-commonForm.onsubmit = function() {
-  // Cookies.set('review-mark', 123, {expires: daysAfterBirthday()});
-  Cookies.set('review-name', nameForm.value, {expires: daysAfterBirthday()}); // ругается 'Cookies' is not defined
 };
 
 validateRecallForm();
