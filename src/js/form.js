@@ -8,12 +8,10 @@ var controlNameLabel = document.querySelector('.review-fields-name'); //лейб
 var controlRecallLabel = document.querySelector('.review-fields-text'); //лейбл отзыв
 var controlGlobalLabel = document.querySelector('.review-fields'); // лейбл общий
 var commonForm = document.querySelector('.review-form'); // вся форма
-var star = document.querySelector('input[name="review-mark"]:checked'); // выбранная оценка - звезда
 var bornDate = new Date('1906-12-09'); // дата рождения Хоппер
 var nowDate = new Date(); // сегодняшняя дата
 nameForm.value = window.Cookies.get('review-name'); // по умолчанию выдавать в поле name значение из куки
-// document.querySelector('#review-mark-' + star.value).checked = true;
-console.log(markForm);
+document.querySelector('#review-mark-' + window.Cookies.get('review-mark')).checked = true; // выставляет по умолчанию оценку
 
 function daysAfterBirthday() { // вычисляю количество дней после посл дня рождения
   var year = nowDate.getFullYear();
@@ -30,8 +28,8 @@ function daysAfterBirthday() { // вычисляю количество дней
   return daysDifference;
 }
 
-commonForm.onsubmit = function() {
-  window.Cookies.set('review-mark', star.value, {expires: daysAfterBirthday()});
+commonForm.onsubmit = function() { // записываю в куки по сабмиту
+  window.Cookies.set('review-mark', checkStar(), {expires: daysAfterBirthday()});
   window.Cookies.set('review-name', nameForm.value, {expires: daysAfterBirthday()});
 };
 document.write(document.cookie);
@@ -74,10 +72,15 @@ function hideGlobalLabel() { // оба условия ок, пропадает �
   }
 }
 
+function checkStar() { // находит выбранную оценку
+  var star = document.querySelector('input[name="review-mark"]:checked'); // выбранная оценка - звезда
+  return star.value;
+}
+
 for (var i = 0; i < markForm.elements.length; i++ ) { // проверка каждый раз при изменении оценок
   markForm.elements[i].onchange = function() {
     validateRecallForm();
-    console.log(markForm.value);
+    checkStar();
   };
 }
 
@@ -91,10 +94,10 @@ recallForm.oninput = function() { // проверка каждый раз при
   hideGlobalLabel();
 };
 
-validateRecallForm();
-checkNameValidity();
-checkRecallValidity();
-hideGlobalLabel();
+// validateRecallForm();
+// checkNameValidity();
+// checkRecallValidity();
+// hideGlobalLabel();
 
 window.form = (function() {
   var formContainer = document.querySelector('.overlay-container');
