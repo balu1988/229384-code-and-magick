@@ -1,7 +1,5 @@
 'use strict';
 
-// var Cookies = document.cookie;
-var Cookies;
 var markForm = document.querySelector('.review-form-group-mark'); //звезды
 var nameForm = document.querySelector('.review-form-field-name'); //логин
 var recallForm = document.querySelector('.review-form-field-text'); //отзыв
@@ -13,6 +11,9 @@ var commonForm = document.querySelector('.review-form'); // вся форма
 var star = document.querySelector('input[name="review-mark"]:checked'); // выбранная оценка - звезда
 var bornDate = new Date('1906-12-09'); // дата рождения Хоппер
 var nowDate = new Date(); // сегодняшняя дата
+nameForm.value = window.Cookies.get('review-name'); // по умолчанию выдавать в поле name значение из куки
+// document.querySelector('#review-mark-' + star.value).checked = true;
+console.log(markForm);
 
 function daysAfterBirthday() { // вычисляю количество дней после посл дня рождения
   var year = nowDate.getFullYear();
@@ -30,9 +31,10 @@ function daysAfterBirthday() { // вычисляю количество дней
 }
 
 commonForm.onsubmit = function() {
-  Cookies.set('review-mark', star.value, {expires: daysAfterBirthday()});
-  Cookies.set('review-name', nameForm.value, {expires: daysAfterBirthday()}); // ругается 'Cookies' is not defined
+  window.Cookies.set('review-mark', star.value, {expires: daysAfterBirthday()});
+  window.Cookies.set('review-name', nameForm.value, {expires: daysAfterBirthday()});
 };
+document.write(document.cookie);
 
 nameForm.required = true; // указываю, что поле обязательное
 
