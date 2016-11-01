@@ -36,12 +36,16 @@ document.write(document.cookie);
 
 nameForm.required = true; // указываю, что поле обязательное
 
+// function validateRecallForm() { // указываю, что поле обязательное, если оценка 3 или 2 или 1
+//   if (markForm.elements[2].checked || markForm.elements[3].checked || markForm.elements[4].checked) {
+//     recallForm.required = true;
+//   } else {
+//     recallForm.required = false;
+//   }
+// }
 function validateRecallForm() { // указываю, что поле обязательное, если оценка 3 или 2 или 1
-  if (markForm.elements[2].checked || markForm.elements[3].checked || markForm.elements[4].checked === true) {
-    recallForm.required = true;
-  } else {
-    recallForm.required = false;
-  }
+  var isFormRequired = markForm.elements[2].checked || markForm.elements[3].checked || markForm.elements[4].checked;
+  recallForm.required = isFormRequired;
 }
 
 function checkNameValidity() { // проверка имени и откл сабмита
