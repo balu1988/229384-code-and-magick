@@ -146,7 +146,7 @@ var template = document.querySelector('template'); // находим шабло�
 var templateContainer = 'content' in template ? template.content : template; // содержимое шаблона
 // var templateContainer = template.content;
 
-var getReviewElement = function(review) {
+var getReviewElement = function(review) { // возвращает DOM элементы
   var reviewElement = templateContainer.querySelector('.review').cloneNode(true); // копируем article
   reviewElement.querySelector('.review-author').textContent = review.author.name; // ?
   reviewElement.querySelector('.review-rating').textContent = review.rating;
@@ -154,14 +154,17 @@ var getReviewElement = function(review) {
 
   var photo = new Image(124, 124);
 
-  photo.onload = function(evt) {
-    reviewElement.querySelector('.review-author').src = evt.photo.src; // после = хз
-    reviewElement.querySelector('.review-author').alt = review.author.name; // ?
+  photo.onload = function() {
+    reviewElement.querySelector('.review-author').src = review.author.picture;
+    reviewElement.querySelector('.review-author').alt = review.author.name;
   };
 
   photo.onerror = function() {
     reviewElement.classList.add('review-load-failure');
   };
+
+  photo.src = review.author.picture;
+  photo.alt = review.author.name;
 
   return reviewElement;
 };
