@@ -98,40 +98,33 @@ recallForm.oninput = function() { // проверка каждый раз при
   hideGlobalLabel();
 };
 
-// validateRecallForm();
-// checkNameValidity();
-// checkRecallValidity();
-// hideGlobalLabel();
+var formContainer = document.querySelector('.overlay-container');
+var formCloseButton = document.querySelector('.review-form-close');
 
-module.exports = function() {
-  var formContainer = document.querySelector('.overlay-container');
-  var formCloseButton = document.querySelector('.review-form-close');
+var form = {
+  onClose: null,
 
-  var form = {
-    onClose: null,
+  /**
+   * @param {Function} cb
+   */
+  open: function(cb) {
+    formContainer.classList.remove('invisible');
+    cb();
+  },
 
-    /**
-     * @param {Function} cb
-     */
-    open: function(cb) {
-      formContainer.classList.remove('invisible');
-      cb();
-    },
+  close: function() {
+    formContainer.classList.add('invisible');
 
-    close: function() {
-      formContainer.classList.add('invisible');
-
-      if (typeof this.onClose === 'function') {
-        this.onClose();
-      }
+    if (typeof this.onClose === 'function') {
+      this.onClose();
     }
-  };
+  }
+};
 
 
-  formCloseButton.onclick = function(evt) {
-    evt.preventDefault();
-    form.close();
-  };
+formCloseButton.onclick = function(evt) {
+  evt.preventDefault();
+  form.close();
+};
 
-  return form;
-}();
+module.exports = form;
