@@ -103,7 +103,7 @@ recallForm.oninput = function() { // проверка каждый раз при
 // checkRecallValidity();
 // hideGlobalLabel();
 
-module.exports = (function() {
+module.exports = function() {
   var formContainer = document.querySelector('.overlay-container');
   var formCloseButton = document.querySelector('.review-form-close');
 
@@ -134,4 +134,4 @@ module.exports = (function() {
   };
 
   return form;
-})();
+}();

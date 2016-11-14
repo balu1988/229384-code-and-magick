@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (function() {
+module.exports = function() {
   /**
    * @const
    * @type {number}
@@ -767,4 +767,4 @@ module.exports = (function() {
   Game.Verdict = Verdict;
 
   return Game;
-})();
+}();

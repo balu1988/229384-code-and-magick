@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = (function(url, callback) {
+module.exports = function(url, callback) {
   var elem = document.createElement('script');
   elem.src = url;
   document.head.appendChild(elem);
@@ -9,4 +9,4 @@ module.exports = (function(url, callback) {
     window.reviews = data;
     callback(window.reviews);
   };
-});
+};
