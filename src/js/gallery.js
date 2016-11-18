@@ -6,13 +6,11 @@ var galleryNextControl = document.querySelector('.overlay-gallery-control-right'
 var galleryActivePictureNumber = document.querySelector('.preview-number-current'); // номер фотографии
 var galleryPicturesNumber = document.querySelector('.preview-number-total'); // количество фотографий
 var galleryCloseControl = document.querySelector('.overlay-gallery-close'); // элемент закрытия галереи
+var galleryPreview = document.querySelector('.overlay-gallery-preview');
 
-// var galleryPictures = [];
-var activePicture = 0;
-
-var Gallery = function(data) { //data?
+var Gallery = function(data) {
   this.pictures = data;
-  this.activePicture = activePicture;
+  this.activePicture = 0;
   this.container = galleryContainer;
   this.previousControl = galleryPreviousControl;
   this.nextControl = galleryNextControl;
@@ -21,36 +19,38 @@ var Gallery = function(data) { //data?
   this.closeControl = galleryCloseControl;
 };
 
-Gallery.prototype = {
-  show: function() {
-    // var self = this;
+Gallery.prototype.show = function(activePicture) {
+  var self = this;
 
-    this.closeControl.onclick = function() {
+  this.closeControl.onclick = function() {
+    self.hide();
+  };
 
-    };
+  this.previousControl.onclick = function() {
+    self.show(--activePicture);
+  };
 
-    this.previousControl.onclick = function() {
+  this.nextControl.onclick = function() {
+    self.show(++activePicture);
+  };
 
-    };
+  this.container.classList.remove('invisible');
+  this.setActivePicture(activePicture);
+};
 
-    this.nextControl.onclick = function() {
+Gallery.prototype.hide = function() {
+  this.container.classList.add('invisible');
+  this.nextControl.onclick = null;
+  this.previousControl.onclick = null;
+  this.closeControl.onclick = null;
+};
 
-    };
-
-    this.container.classList.remove('invisible');
-    this.setActivePicture();
-  },
-
-  hide: function() {
-    this.container.classList.add('invisible');
-    this.nextControl.onclick = null;
-    this.previousControl.onclick = null;
-    this.closeControl.onclick = null;
-  },
-
-  setActivePicture: function() {
-
-  },
+Gallery.prototype.setActivePicture = function(activePicture) {
+  this.activePicture = activePicture;
+  var photo = new Image();
+  photo.src = this.pictures[this.activePicture];
+  galleryPreview.appendChild(photo);
+  this.activePictureNumber.textContent = this.activePicture + 1;
 };
 
 module.exports = Gallery;

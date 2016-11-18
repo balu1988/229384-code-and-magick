@@ -10,7 +10,8 @@ var container = document.querySelector('.reviews-list'); // сюда копир�
 
 getJSONPData('http://localhost:1507/api/reviews?callback=JSONPCallback', function(reviews) {
   reviews.forEach(function(review) {
-    container.appendChild(getReviewElement(review));
+    var element = getReviewElement(review);
+    container.appendChild(element);
   });
 });
 

@@ -30,7 +30,7 @@ var photoGalleryPics = document.querySelectorAll('.photogallery-image img');
 var photoGalleryPicsAdresses = [];
 
 for(var i = 0; i < photoGalleryPics.length; i++) {
-  photoGalleryPicsAdresses.push(photoGalleryPics[i].src);
+  photoGalleryPicsAdresses.push(photoGalleryPics[i].src); //значения src скринов ("http://localhost:1507/img/screenshots/1.png")
 }
 
 var gallery = new Gallery(photoGalleryPicsAdresses);
