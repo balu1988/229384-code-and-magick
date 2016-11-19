@@ -40,8 +40,8 @@ for(var j = 0; j < photogalleryLinks.length; j++) {
   photogalleryLinks[j].onclick = setInitialPicture(j);
 }
 
-function setInitialPicture() {
+function setInitialPicture(pic) {
   return function() {
-    gallery.show();
+    gallery.show(pic);
   };
 }

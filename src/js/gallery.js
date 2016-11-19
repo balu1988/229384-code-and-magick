@@ -19,7 +19,7 @@ var Gallery = function(data) {
   this.closeControl = galleryCloseControl;
 };
 
-Gallery.prototype.show = function(activePicture) {
+Gallery.prototype.show = function(pic) {
   var self = this;
 
   this.closeControl.onclick = function() {
@@ -27,15 +27,19 @@ Gallery.prototype.show = function(activePicture) {
   };
 
   this.previousControl.onclick = function() {
-    self.show(--activePicture);
+    if (self.activePicture > 0) {
+      self.show(--self.activePicture);
+    }
   };
 
   this.nextControl.onclick = function() {
-    self.show(++activePicture);
+    if (self.activePicture < self.pictures.length - 1) {
+      self.show(++self.activePicture);
+    }
   };
 
   this.container.classList.remove('invisible');
-  this.setActivePicture(activePicture);
+  this.setActivePicture(pic);
 };
 
 Gallery.prototype.hide = function() {
@@ -45,12 +49,18 @@ Gallery.prototype.hide = function() {
   this.closeControl.onclick = null;
 };
 
-Gallery.prototype.setActivePicture = function(activePicture) {
-  this.activePicture = activePicture;
+Gallery.prototype.setActivePicture = function(pic) {
+  this.activePicture = pic;
   var photo = new Image();
   photo.src = this.pictures[this.activePicture];
-  galleryPreview.appendChild(photo);
+  if (galleryPreview.querySelector('img')) {
+    galleryPreview.removeChild(galleryPreview.querySelector('img'));
+    galleryPreview.appendChild(photo);
+  } else {
+    galleryPreview.appendChild(photo);
+  }
   this.activePictureNumber.textContent = this.activePicture + 1;
+  this.picturesNumber.textContent = this.pictures.length;
 };
 
 module.exports = Gallery;
