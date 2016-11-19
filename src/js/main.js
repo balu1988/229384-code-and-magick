@@ -30,15 +30,16 @@ var photoGalleryPics = document.querySelectorAll('.photogallery-image img');
 var photoGalleryPicsAdresses = [];
 
 for(var i = 0; i < photoGalleryPics.length; i++) {
-  photoGalleryPicsAdresses.push(photoGalleryPics[i].src); //значения src скринов ("http://localhost:1507/img/screenshots/1.png")
+  photoGalleryPicsAdresses.push(photoGalleryPics[i].src); //значения src скринов
 }
 
 var gallery = new Gallery(photoGalleryPicsAdresses);
 
 var photogalleryLinks = document.querySelectorAll('.photogallery-image');
-for(var j = 0; j < photogalleryLinks.length; j++) {
-  photogalleryLinks[j].onclick = setInitialPicture(j);
-}
+
+photogalleryLinks.forEach(function(element, index) {
+  element.onclick = setInitialPicture(index);
+});
 
 function setInitialPicture(pic) {
   return function() {
