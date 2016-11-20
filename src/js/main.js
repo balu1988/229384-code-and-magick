@@ -29,9 +29,13 @@ var photoGalleryPics = document.querySelectorAll('.photogallery-image img');
 
 var photoGalleryPicsAdresses = [];
 
-for(var i = 0; i < photoGalleryPics.length; i++) {
-  photoGalleryPicsAdresses.push(photoGalleryPics[i].src); //значения src скринов
-}
+// for(var i = 0; i < photoGalleryPics.length; i++) {
+//   photoGalleryPicsAdresses.push(photoGalleryPics[i].src); //значения src скринов
+// }
+
+photoGalleryPics.forEach(function(element) {
+  photoGalleryPicsAdresses.push(element.src);
+});
 
 var gallery = new Gallery(photoGalleryPicsAdresses);
 
