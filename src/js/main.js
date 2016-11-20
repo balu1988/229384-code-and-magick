@@ -2,6 +2,7 @@
 
 var form = require('./form');
 var Game = require('./game');
+var Gallery = require('./gallery');
 require('./reviews');
 
 var game = new Game(document.querySelector('.demo'));
@@ -23,3 +24,25 @@ formOpenButton.onclick = function(evt) {
 form.onClose = function() {
   game.setDeactivated(false);
 };
+
+var photoGalleryPics = document.querySelectorAll('.photogallery-image img');
+
+var photoGalleryPicsAdresses = [];
+
+for(var i = 0; i < photoGalleryPics.length; i++) {
+  photoGalleryPicsAdresses.push(photoGalleryPics[i].src); //значения src скринов
+}
+
+var gallery = new Gallery(photoGalleryPicsAdresses);
+
+var photogalleryLinks = document.querySelectorAll('.photogallery-image');
+
+photogalleryLinks.forEach(function(element, index) {
+  element.onclick = setInitialPicture(index);
+});
+
+function setInitialPicture(pic) {
+  return function() {
+    gallery.show(pic);
+  };
+}
