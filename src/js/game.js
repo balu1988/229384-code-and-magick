@@ -259,6 +259,14 @@ LevelsInitialize[Level.INTRO] = function(state) {
  * @param {Element} container
  * @constructor
  */
+var headerClouds = document.querySelector('.header-clouds');
+var demo = document.querySelector('.demo');
+var THROTTLE_TIMEOUT = 100;
+var lastCheck;
+var scrollHeight = headerClouds.offsetHeight;
+var isMoveClouds = true;
+var demoSize = demo.getBoundingClientRect();
+
 var Game = function(container) {
   this.container = container;
   this.canvas = document.createElement('canvas');
@@ -271,6 +279,7 @@ var Game = function(container) {
   this._onKeyDown = this._onKeyDown.bind(this);
   this._onKeyUp = this._onKeyUp.bind(this);
   this._pauseListener = this._pauseListener.bind(this);
+  this._onScroll = this._onScroll.bind(this);
 
   this.setDeactivated(false);
 };
@@ -281,6 +290,28 @@ Game.prototype = {
    * @type {Level}
    */
   level: INITIAL_LEVEL,
+
+  _onScroll: function() {
+    var scrollMove = document.documentElement.scrollTop || document.body.scrollTop;
+
+    if(isMoveClouds) {
+      headerClouds.style.backgroundPosition = '' + scrollMove + 'px';
+    }
+
+    if(Date.now() - lastCheck >= THROTTLE_TIMEOUT) {
+      if(scrollMove > scrollHeight) {
+        isMoveClouds = false;
+      } else {
+        isMoveClouds = true;
+      }
+      if(scrollMove > demoSize.bottom) {
+        this.setGameStatus(Verdict.PAUSE);
+      } else {
+        this.setGameStatus(Verdict.CONTINUE);
+      }
+    }
+    lastCheck = Date.now();
+  },
 
   /** @param {boolean} deactivated */
   setDeactivated: function(deactivated) {
@@ -755,6 +786,7 @@ Game.prototype = {
   _initializeGameListeners: function() {
     window.addEventListener('keydown', this._onKeyDown);
     window.addEventListener('keyup', this._onKeyUp);
+    window.addEventListener('scroll', this._onScroll);
   },
 
   /** @private */
